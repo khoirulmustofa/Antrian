@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Antrian.Models.BidangPelayanan>
+
+@{
+    ViewBag.Title = "Pelayanan";
+}
+@section AddToHead {
+    @*@Styles.Render("~/Content/asdaskjdhk")*@
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            toastr.success('This is a success notification from toastr.')
+        })
+    </script>
+}
+}
+<div class="row">
+    <div class="col-lg-12">
+        <h1 class="page-header">PELAYANAN ADMINISTRASI TERPADU KECAMATAN GUNEM</h1>
+    </div>
+    <!-- /.col-lg-12 -->
+</div>
+@foreach (var item in Model)
+{
+    <h2>@item.NamaBidangPelayanan</h2>
+    <div class="row">
+        @foreach (var pelayanan in item.Pelayanan)
+        {
+            using (Html.BeginForm("AddAntrian", "Home"))
+            {
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(model => item.BidangId)
+                @Html.HiddenFor(model => pelayanan.PelayananId)
+                <input type="submit" value="@pelayanan.NamaPelayanan" class="btn btn-primary btn-lg btn-block" />
+            }
+            <br>
+        }
+
+    </div>
+}

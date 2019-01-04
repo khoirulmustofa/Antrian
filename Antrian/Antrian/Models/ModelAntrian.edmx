@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AntrianModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AntrianPelayanan">
+          <Key>
+            <PropertyRef Name="KodeAntrian" />
+          </Key>
+          <Property Name="KodeAntrian" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="NoAntrian" Type="varchar" MaxLength="10" />
+          <Property Name="Bidang" Type="int" />
+          <Property Name="Pelayanan" Type="int" />
+          <Property Name="Status" Type="varchar" MaxLength="50" />
+          <Property Name="Loket" Type="int" />
+        </EntityType>
+        <EntityType Name="BidangPelayanan">
+          <Key>
+            <PropertyRef Name="BidangId" />
+          </Key>
+          <Property Name="BidangId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NamaBidangPelayanan" Type="varchar" MaxLength="100" />
+          <Property Name="Loket" Type="int" />
+        </EntityType>
+        <EntityType Name="Pelayanan">
+          <Key>
+            <PropertyRef Name="PelayananId" />
+          </Key>
+          <Property Name="PelayananId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NamaPelayanan" Type="varchar" MaxLength="300" />
+          <Property Name="Bidang" Type="int" />
+        </EntityType>
+        <Association Name="FK_Antrian_BidangPelayanan">
+          <End Role="BidangPelayanan" Type="Self.BidangPelayanan" Multiplicity="0..1" />
+          <End Role="AntrianPelayanan" Type="Self.AntrianPelayanan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BidangPelayanan">
+              <PropertyRef Name="BidangId" />
+            </Principal>
+            <Dependent Role="AntrianPelayanan">
+              <PropertyRef Name="Bidang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Antrian_Pelayanan">
+          <End Role="Pelayanan" Type="Self.Pelayanan" Multiplicity="0..1" />
+          <End Role="AntrianPelayanan" Type="Self.AntrianPelayanan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pelayanan">
+              <PropertyRef Name="PelayananId" />
+            </Principal>
+            <Dependent Role="AntrianPelayanan">
+              <PropertyRef Name="Pelayanan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pelayanan_BidangPelayanan">
+          <End Role="BidangPelayanan" Type="Self.BidangPelayanan" Multiplicity="0..1" />
+          <End Role="Pelayanan" Type="Self.Pelayanan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BidangPelayanan">
+              <PropertyRef Name="BidangId" />
+            </Principal>
+            <Dependent Role="Pelayanan">
+              <PropertyRef Name="Bidang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AntrianModelStoreContainer">
+          <EntitySet Name="AntrianPelayanan" EntityType="Self.AntrianPelayanan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BidangPelayanan" EntityType="Self.BidangPelayanan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pelayanan" EntityType="Self.Pelayanan" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Antrian_BidangPelayanan" Association="Self.FK_Antrian_BidangPelayanan">
+            <End Role="BidangPelayanan" EntitySet="BidangPelayanan" />
+            <End Role="AntrianPelayanan" EntitySet="AntrianPelayanan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Antrian_Pelayanan" Association="Self.FK_Antrian_Pelayanan">
+            <End Role="Pelayanan" EntitySet="Pelayanan" />
+            <End Role="AntrianPelayanan" EntitySet="AntrianPelayanan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pelayanan_BidangPelayanan" Association="Self.FK_Pelayanan_BidangPelayanan">
+            <End Role="BidangPelayanan" EntitySet="BidangPelayanan" />
+            <End Role="Pelayanan" EntitySet="Pelayanan" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AntrianModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BidangPelayanan">
+          <Key>
+            <PropertyRef Name="BidangId" />
+          </Key>
+          <Property Name="BidangId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NamaBidangPelayanan" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Loket" Type="Int32" />
+          <NavigationProperty Name="Pelayanan" Relationship="Self.FK_Pelayanan_BidangPelayanan" FromRole="BidangPelayanan" ToRole="Pelayanan" />
+          <NavigationProperty Name="AntrianPelayanan" Relationship="AntrianModel.FK_Antrian_BidangPelayanan1" FromRole="BidangPelayanan" ToRole="AntrianPelayanan" />
+        </EntityType>
+        <EntityType Name="Pelayanan">
+          <Key>
+            <PropertyRef Name="PelayananId" />
+          </Key>
+          <Property Name="PelayananId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="NamaPelayanan" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="Bidang" Type="Int32" />
+          <NavigationProperty Name="BidangPelayanan" Relationship="Self.FK_Pelayanan_BidangPelayanan" FromRole="Pelayanan" ToRole="BidangPelayanan" />
+          <NavigationProperty Name="AntrianPelayanan" Relationship="AntrianModel.FK_Antrian_Pelayanan1" FromRole="Pelayanan" ToRole="AntrianPelayanan" />
+        </EntityType>
+        <Association Name="FK_Pelayanan_BidangPelayanan">
+          <End Role="BidangPelayanan" Type="Self.BidangPelayanan" Multiplicity="0..1" />
+          <End Role="Pelayanan" Type="Self.Pelayanan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BidangPelayanan">
+              <PropertyRef Name="BidangId" />
+            </Principal>
+            <Dependent Role="Pelayanan">
+              <PropertyRef Name="Bidang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AntrianEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BidangPelayanan" EntityType="Self.BidangPelayanan" />
+          <EntitySet Name="Pelayanan" EntityType="Self.Pelayanan" />
+          <AssociationSet Name="FK_Pelayanan_BidangPelayanan" Association="Self.FK_Pelayanan_BidangPelayanan">
+            <End Role="BidangPelayanan" EntitySet="BidangPelayanan" />
+            <End Role="Pelayanan" EntitySet="Pelayanan" />
+          </AssociationSet>
+          <EntitySet Name="AntrianPelayanan" EntityType="AntrianModel.AntrianPelayanan" />
+          <AssociationSet Name="FK_Antrian_BidangPelayanan1" Association="AntrianModel.FK_Antrian_BidangPelayanan1">
+            <End Role="BidangPelayanan" EntitySet="BidangPelayanan" />
+            <End Role="AntrianPelayanan" EntitySet="AntrianPelayanan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Antrian_Pelayanan1" Association="AntrianModel.FK_Antrian_Pelayanan1">
+            <End Role="Pelayanan" EntitySet="Pelayanan" />
+            <End Role="AntrianPelayanan" EntitySet="AntrianPelayanan" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AntrianPelayanan">
+          <Key>
+            <PropertyRef Name="KodeAntrian" />
+          </Key>
+          <Property Name="KodeAntrian" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Bidang" Type="Int32" />
+          <Property Name="Pelayanan" Type="Int32" />
+          <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Loket" Type="Int32" />
+          <NavigationProperty Name="BidangPelayanan" Relationship="AntrianModel.FK_Antrian_BidangPelayanan1" FromRole="AntrianPelayanan" ToRole="BidangPelayanan" />
+          <NavigationProperty Name="Pelayanan1" Relationship="AntrianModel.FK_Antrian_Pelayanan1" FromRole="AntrianPelayanan" ToRole="Pelayanan" />
+          <Property Name="NoAntrian" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Antrian_BidangPelayanan1">
+          <End Type="AntrianModel.BidangPelayanan" Role="BidangPelayanan" Multiplicity="0..1" />
+          <End Type="AntrianModel.AntrianPelayanan" Role="AntrianPelayanan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BidangPelayanan">
+              <PropertyRef Name="BidangId" />
+            </Principal>
+            <Dependent Role="AntrianPelayanan">
+              <PropertyRef Name="Bidang" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Antrian_Pelayanan1">
+          <End Type="AntrianModel.Pelayanan" Role="Pelayanan" Multiplicity="0..1" />
+          <End Type="AntrianModel.AntrianPelayanan" Role="AntrianPelayanan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pelayanan">
+              <PropertyRef Name="PelayananId" />
+            </Principal>
+            <Dependent Role="AntrianPelayanan">
+              <PropertyRef Name="Pelayanan" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AntrianModelStoreContainer" CdmEntityContainer="AntrianEntities">
+          <EntitySetMapping Name="BidangPelayanan">
+            <EntityTypeMapping TypeName="AntrianModel.BidangPelayanan">
+              <MappingFragment StoreEntitySet="BidangPelayanan">
+                <ScalarProperty Name="BidangId" ColumnName="BidangId" />
+                <ScalarProperty Name="NamaBidangPelayanan" ColumnName="NamaBidangPelayanan" />
+                <ScalarProperty Name="Loket" ColumnName="Loket" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pelayanan">
+            <EntityTypeMapping TypeName="AntrianModel.Pelayanan">
+              <MappingFragment StoreEntitySet="Pelayanan">
+                <ScalarProperty Name="PelayananId" ColumnName="PelayananId" />
+                <ScalarProperty Name="NamaPelayanan" ColumnName="NamaPelayanan" />
+                <ScalarProperty Name="Bidang" ColumnName="Bidang" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AntrianPelayanan">
+            <EntityTypeMapping TypeName="AntrianModel.AntrianPelayanan">
+              <MappingFragment StoreEntitySet="AntrianPelayanan">
+                <ScalarProperty Name="NoAntrian" ColumnName="NoAntrian" />
+                <ScalarProperty Name="Loket" ColumnName="Loket" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="Pelayanan" ColumnName="Pelayanan" />
+                <ScalarProperty Name="Bidang" ColumnName="Bidang" />
+                <ScalarProperty Name="KodeAntrian" ColumnName="KodeAntrian" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
